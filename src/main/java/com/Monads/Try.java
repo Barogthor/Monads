@@ -1,6 +1,5 @@
-package com.TestVerbose;
+package com.Monads;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Try<R> {

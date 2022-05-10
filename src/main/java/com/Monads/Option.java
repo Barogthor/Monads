@@ -1,4 +1,4 @@
-package com.TestVerbose;
+package com.Monads;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -14,8 +14,8 @@ public interface Option<T>
     boolean isNone();
     Option<T> filter(Predicate<? super T> predicate);
     <U> Option<U> map(Function<? super T, ? extends U> mapper);
-    <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, Option<T> other);
-    <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, T other);
+    <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, Option<U> other);
+    <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, U other);
     <U> Option<U> fmap(Function<? super T, Option<U>> mapper);
     <U> Option<U> fmapOr(Function<? super T, Option<U>> mapper, Option<T> other);
     <U> Option<U> fmapOr(Function<? super T, Option<U>> mapper, T other);

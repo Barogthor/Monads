@@ -1,8 +1,8 @@
-package com.TestVerbose;
+package com.Monads;
 
-import com.TestVerbose.helper.OptionFlatMapSquareFunction;
-import com.TestVerbose.helper.OptionMapSquareFunction;
-import com.TestVerbose.helper.OptionThenConsumer;
+import com.Monads.helper.OptionFlatMapSquareFunction;
+import com.Monads.helper.OptionMapSquareFunction;
+import com.Monads.helper.OptionThenConsumer;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,20 +10,20 @@ import static org.junit.jupiter.api.Assertions.*;
 class SomeTest {
 
     @Test
-    public void testCreate(){
+    void testCreate(){
         Option<Integer> option = Option.of(5);
         assertTrue(option instanceof Some);
         assertEquals(5, option.get());
     }
 
     @Test
-    public void testValueOr(){
+    void testValueOr(){
         Option<Integer> option = Option.of(5);
         assertEquals(5, option.orElse(9));
     }
 
     @Test
-    public void testThen(){
+    void testThen(){
         String hello = "Hello world";
         Option<Integer> option = Option.of(5);
         OptionThenConsumer consumer = new OptionThenConsumer();
@@ -33,14 +33,14 @@ class SomeTest {
     }
 
     @Test
-    public void testFilterFalse(){
+    void testFilterFalse(){
         Option<Integer> option = Option.of(5);
         Option<Integer> filterOption = option.filter(value -> value == 6);
         assertTrue(filterOption instanceof None);
     }
 
     @Test
-    public void testFilterTrue(){
+    void testFilterTrue(){
         Option<Integer> option = Option.of(5);
         Option<Integer> filterOption = option.filter(value -> value == 5);
         assertTrue(filterOption instanceof Some);
@@ -48,7 +48,7 @@ class SomeTest {
     }
 
     @Test
-    public void testMap(){
+    void testMap(){
         Option<Integer> option = Option.of(5);
         Option<Integer> mappedOption = option.map(new OptionMapSquareFunction());
         assertTrue(mappedOption instanceof Some);
@@ -56,7 +56,7 @@ class SomeTest {
     }
 
     @Test
-    public void testMap2(){
+    void testMap2(){
         Option<Integer> option = Option.of(5)
                 .map(num -> num*num)
                 .map(Object::toString)
@@ -66,7 +66,7 @@ class SomeTest {
     }
 
     @Test
-    public void testFlatMap(){
+    void testFlatMap(){
         Option<Integer> option = Option.of(5);
         Option<Integer> mappedOption = option.fmap(new OptionFlatMapSquareFunction());
         assertTrue(mappedOption instanceof Some);
@@ -74,7 +74,7 @@ class SomeTest {
     }
 
     @Test
-    public void testFlatten_0(){
+    void testFlatten_0(){
         Option<Integer> option = Option.of(5);
         Option<Integer> flattenedOption = option.flatten();
         assertTrue(flattenedOption instanceof Some);
@@ -82,7 +82,7 @@ class SomeTest {
     }
 
     @Test
-    public void testFlatten_1(){
+    void testFlatten_1(){
         Option<Option<Integer>> option = Option.of(Option.of(5));
         Option<Integer> flattenedOption = option.flatten();
         assertTrue(flattenedOption instanceof Some);
@@ -90,14 +90,14 @@ class SomeTest {
     }
 
     @Test
-    public void testFlatten_withNone(){
+    void testFlatten_withNone(){
         Option<Option<Integer>> option = Option.of(Option.of(null));
         Option<Integer> flattenedOption = option.flatten();
         assertTrue(flattenedOption instanceof None);
     }
 
     @Test
-    public void testFlatten_2(){
+    void testFlatten_2(){
         Option<Option<Option<Integer>>> option = Option.of(Option.of(Option.of(5)));
         Option<Integer> flattenedOption = option.flatten();
         assertTrue(flattenedOption instanceof Some);
@@ -105,7 +105,7 @@ class SomeTest {
     }
 
     @Test
-    public void testAnd(){
+    void testAnd(){
         Option<Integer> left = Option.of(5);
         Option<Integer> right = Option.of(6);
         Option<Integer> andOption = left.and(right);
@@ -113,7 +113,7 @@ class SomeTest {
     }
 
     @Test
-    public void testOr(){
+    void testOr(){
         Option<Integer> left = Option.of(5);
         Option<Integer> right = Option.of(6);
         Option<Integer> orOption = left.or(right);
@@ -121,7 +121,7 @@ class SomeTest {
     }
 
     @Test
-    public void testXor(){
+    void testXor(){
         Option<Integer> left = Option.of(5);
         Option<Integer> right = Option.of(6);
         Option<Integer> xorOption = left.xor(right);
@@ -129,7 +129,7 @@ class SomeTest {
     }
 
     @Test
-    public void testXor_left(){
+    void testXor_left(){
         Option<Integer> left = Option.of(5);
         Option<Integer> right = Option.of(null);
         Option<Integer> xorOption = left.xor(right);

@@ -1,4 +1,4 @@
-package com.TestVerbose;
+package com.Monads;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -43,13 +43,13 @@ class None<T> implements Option<T> {
     }
 
     @Override
-    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, Option<T> other) {
-        return other.map(mapper);
+    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, Option<U> other) {
+        return other;
     }
 
     @Override
-    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, T other) {
-        return this.mapOr(mapper, Option.of(other));
+    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, U other) {
+        return Option.of(other);
     }
 
     @Override
@@ -89,6 +89,8 @@ class None<T> implements Option<T> {
 
     @Override
     public boolean equals(Object obj) {
+        if(!(obj instanceof Option))
+            return false;
         return this == obj || ((Option)obj).isNone();
     }
 

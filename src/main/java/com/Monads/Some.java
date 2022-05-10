@@ -1,4 +1,4 @@
-package com.TestVerbose;
+package com.Monads;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -47,12 +47,12 @@ class Some<T> implements Option<T> {
     }
 
     @Override
-    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, Option<T> other) {
+    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, Option<U> other) {
         return this.map(mapper);
     }
 
     @Override
-    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, T other) {
+    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, U other) {
         return this.map(mapper);
     }
 
