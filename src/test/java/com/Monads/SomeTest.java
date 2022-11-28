@@ -57,12 +57,11 @@ class SomeTest {
 
     @Test
     void testMap2(){
-        Option<Integer> option = Option.of(5)
+        Option<String> option = Option.of(5)
                 .map(num -> num*num)
                 .map(Object::toString)
-                .map(num -> num + "10")
-                .map(Integer::parseInt);
-        assertEquals(2510, option.get());
+                .map(num -> num + "10");
+        assertEquals("2510", option.get());
     }
 
     @Test

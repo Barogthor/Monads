@@ -3,56 +3,56 @@ package com.Monads;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-class Ok<E, T> implements Result<E, T> {
-    private T value;
+public class Ok<E, T> implements Result<E, T> {
+    protected T value;
 
-    Ok(T value){
+    protected Ok(T value){
         this.value = value;
     }
 
     @Override
-    public T ok() {
+    final public T ok() {
         return value;
     }
 
     @Override
-    public boolean isOk() {
+    final public boolean isOk() {
         return true;
     }
 
     @Override
-    public boolean isError() {
+    final public boolean isError() {
         return false;
     }
 
     @Override
-    public Result<E, T> thenOk(Consumer<T> lambda) {
+    final public Result<E, T> thenOk(Consumer<T> lambda) {
         lambda.accept(this.value);
         return this;
     }
 
     @Override
-    public Result<E, T> thenError(Consumer<E> lambda) {
+    final public Result<E, T> thenError(Consumer<E> lambda) {
         return this;
     }
 
     @Override
-    public <U> Result<E, U> map(Function<? super T, ? extends Result<E, U>> mapper) {
+    final public <U> Result<E, U> map(Function<? super T, ? extends Result<E, U>> mapper) {
         return mapper.apply(this.value);
     }
 
     @Override
-    public <W> Result<W, T> mapError(Function<? super E, ? extends Result<W, T>> mapper) {
+    final public <W> Result<W, T> mapError(Function<? super E, ? extends Result<W, T>> mapper) {
         return new Ok<>(this.value);
     }
 
     @Override
-    public <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, Result<U, W> other) {
+    final public <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, Result<U, W> other) {
         return new Ok<>(mapper.apply(this.value));
     }
 
     @Override
-    public <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, W other) {
+    final public <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, W other) {
         return new Ok<>(mapper.apply(this.value));
     }
 

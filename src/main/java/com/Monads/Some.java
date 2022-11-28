@@ -4,93 +4,93 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-class Some<T> implements Option<T> {
-    private T value;
+public class Some<T> implements Option<T> {
+    protected T value;
 
-    Some(T value){
+    protected Some(T value){
         this.value = value;
     }
 
     @Override
-    public T get() {
+    final public T get() {
         return this.value;
     }
 
     @Override
-    public T orElse(T other) {
+    final public T orElse(T other) {
         return this.value;
     }
 
     @Override
-    public boolean isSome() {
+    final public boolean isSome() {
         return true;
     }
 
     @Override
-    public boolean isNone() {
+    final public boolean isNone() {
         return false;
     }
 
     @Override
-    public void then(Consumer<T> lambda) {
+    final public void then(Consumer<T> lambda) {
         lambda.accept(this.value);
     }
 
     @Override
-    public Option<T> filter(Predicate<? super T> predicate) {
+    final public Option<T> filter(Predicate<? super T> predicate) {
         return predicate.test(this.value) ? this : new None<>();
     }
 
     @Override
-    public <U> Option<U> map(Function<? super T, ? extends U> mapper) {
+    final public <U> Option<U> map(Function<? super T, ? extends U> mapper) {
         return Option.of(mapper.apply(this.value));
     }
 
     @Override
-    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, Option<U> other) {
+    final public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, Option<U> other) {
         return this.map(mapper);
     }
 
     @Override
-    public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, U other) {
+    final public <U> Option<U> mapOr(Function<? super T, ? extends U> mapper, U other) {
         return this.map(mapper);
     }
 
     @Override
-    public <U> Option<U> fmap(Function<? super T, Option<U>> mapper) {
+    final public <U> Option<U> fmap(Function<? super T, Option<U>> mapper) {
         return mapper.apply(this.value);
     }
 
     @Override
-    public <U> Option<U> fmapOr(Function<? super T, Option<U>> mapper, Option<T> other) {
+    final public <U> Option<U> fmapOr(Function<? super T, Option<U>> mapper, Option<T> other) {
         return this.fmap(mapper);
     }
 
     @Override
-    public <U> Option<U> fmapOr(Function<? super T, Option<U>> mapper, T other) {
+    final public <U> Option<U> fmapOr(Function<? super T, Option<U>> mapper, T other) {
         return this.fmap(mapper);
     }
 
     @Override
-    public <U> Option<U> flatten() {
-        Option lastLeaf = new Some(this.value);
-        while(lastLeaf.isSome() && lastLeaf.get() instanceof Option)
-            lastLeaf = (Option) lastLeaf.get();
-        return (Option<U>) lastLeaf;
+    final public <U> Option<U> flatten() {
+        if(this.value instanceof Option)
+            return ((Option<?>) this.value).flatten();
+        else
+            return (Option<U>) new Some<>(this.value);
     }
 
-    @Override
+    final @Override
     public  Option<T> and(Option<T> right) {
         return right;
     }
 
     @Override
-    public  Option<T> or(Option<T> right) {
+    final public  Option<T> or(Option<T> right) {
         return this;
     }
 
     @Override
-    public Option<T> xor(Option<T> right) {
+    final public Option<T> xor(Option<T> right) {
         return right.isSome() ? new None<>() : this;
     }
 
