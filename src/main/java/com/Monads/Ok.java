@@ -57,13 +57,13 @@ public class Ok<E, T> implements Result<E, T> {
     }
 
 
-    //    @Override
-//    public boolean equals(Object obj) {
-//        if(!(obj instanceof Result))
-//            return false;
-//        Result ok = (Result) obj;
-//        return this == obj || (ok.isOk() && ok.ok().equals(value));
-//    }
+    @Override
+    public boolean equals(Object obj) {
+        if(!(obj instanceof Result))
+            return false;
+        Result<?, ?> res = (Result<?, ?>) obj;
+        return this == obj || (res.isOk() && res.ok().equals(value));
+    }
 
 //    @Override
 //    public int compareTo(Result<T> o) {

@@ -55,8 +55,11 @@ public class Error<E, T> implements Result<E, T> {
         return this;
     }
 
-//    @Override
-//    final public boolean equals(Object obj) {
-//        return this == obj || (obj instanceof Result && ((Result<?, ?>)obj).isError());
-//    }
+    @Override
+    final public boolean equals(Object obj) {
+        if(!(obj instanceof Result))
+            return false;
+        Result<?, ?> res = (Result<?, ?>) obj;
+        return this == obj || (res.isError() && res.error().equals(value));
+    }
 }
