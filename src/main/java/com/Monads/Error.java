@@ -35,12 +35,12 @@ public class Error<E, T> implements Result<E, T> {
     }
 
     @Override
-    final public <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, Result<U, W> other) {
+    public <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, Result<E, U> other) {
         return other;
     }
 
     @Override
-    final public <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, W other) {
+    public <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, U other) {
         return new Ok<>(other);
     }
 
@@ -55,8 +55,8 @@ public class Error<E, T> implements Result<E, T> {
         return this;
     }
 
-    @Override
-    final public boolean equals(Object obj) {
-        return this == obj || (obj instanceof Result && ((Result)obj).isError());
-    }
+//    @Override
+//    final public boolean equals(Object obj) {
+//        return this == obj || (obj instanceof Result && ((Result<?, ?>)obj).isError());
+//    }
 }

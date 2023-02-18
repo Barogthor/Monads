@@ -20,8 +20,8 @@ public interface Result<E, T>
     boolean isError();
     <U> Result<E, U> map(Function<? super T, ? extends Result<E, U>> mapper);
     <W> Result<W, T> mapError(Function<? super E, ? extends Result<W, T>> mapper);
-    <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, Result<U, W> other);
-    <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, W other);
+    <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, Result<E, U> other);
+    <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, U other);
 //    <U, W> Result<U, W> flatMap(Function<? super T, Result<U, W>> mapper);
 //    <U, W> Result<U, W> flatMapError(Function<? super E, Result<U, W>> mapper);
 //    <U, W> Result<U, W> flatMapOr(Function<? super E, Result<U, W>> mapper, Result<U, W> other);

@@ -47,14 +47,15 @@ public class Ok<E, T> implements Result<E, T> {
     }
 
     @Override
-    final public <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, Result<U, W> other) {
-        return new Ok<>(mapper.apply(this.value));
+    public <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, Result<E, U> other) {
+        return mapper.apply(this.value);
     }
 
     @Override
-    final public <U, W> Result<U, W> mapOr(Function<? super T, ? extends W> mapper, W other) {
-        return new Ok<>(mapper.apply(this.value));
+    public <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, U other) {
+        return mapper.apply(this.value);
     }
+
 
     //    @Override
 //    public boolean equals(Object obj) {
