@@ -3,19 +3,24 @@ package com.Monads;
 import java.util.function.Supplier;
 
 public class Try<R> {
-    private Supplier<R> lambda;
+    private final Supplier<R> lambda;
 
     public Try(Supplier<R> lambda){
         this.lambda = lambda;
     }
 
     public Option<R> option(){
-        R res = null;
-        try {
-            res = lambda.get();
-        } finally {
-
-        }
+        R res = lambda.get();
         return Option.of(res);
+    }
+
+    public Result<Exception, R> result() {
+        try {
+            R res = this.lambda.get();
+            return new Ok<>(res);
+        }
+        catch (Exception e) {
+            return new Error<>(e);
+        }
     }
 }
