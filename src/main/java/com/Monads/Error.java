@@ -25,22 +25,42 @@ public class Error<E, T> implements Result<E, T> {
     }
 
     @Override
-    final public <U> Result<E, U> map(Function<? super T, ? extends Result<E, U>> mapper) {
+    public <U> Result<E, U> map(Function<? super T, ? extends U> mapper) {
         return new Error<>(this.value);
     }
 
     @Override
-    final public <W> Result<W, T> mapError(Function<? super E, ? extends Result<W, T>> mapper) {
-        return mapper.apply(this.value);
+    public <W> Result<W, T> mapError(Function<? super E, ? extends W> mapper) {
+        return new Error<>(mapper.apply(this.value));
     }
 
     @Override
-    public <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, Result<E, U> other) {
+    public <U> Result<E, U> mapOr(Function<? super T, ? extends U> mapper, U other) {
+        return new Ok<>(other);
+    }
+
+    @Override
+    public <U> Result<E, U> mapOr(Function<? super T, ? extends U> mapper, Result<E, U> other) {
         return other;
     }
 
     @Override
-    public <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, U other) {
+    final public <U> Result<E, U> fmap(Function<? super T, ? extends Result<E, U>> mapper) {
+        return new Error<>(this.value);
+    }
+
+    @Override
+    final public <W> Result<W, T> fmapError(Function<? super E, ? extends Result<W, T>> mapper) {
+        return mapper.apply(this.value);
+    }
+
+    @Override
+    public <U> Result<E, U> fmapOr(Function<? super T, ? extends Result<E,U>> mapper, Result<E, U> other) {
+        return other;
+    }
+
+    @Override
+    public <U> Result<E, U> fmapOr(Function<? super T, ? extends Result<E,U>> mapper, U other) {
         return new Ok<>(other);
     }
 

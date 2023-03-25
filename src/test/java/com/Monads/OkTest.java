@@ -1,6 +1,8 @@
 package com.Monads;
 
+import com.Monads.helper.ErrorMapDoubleToString;
 import com.Monads.helper.ErrorMapSquareFunction;
+import com.Monads.helper.OkMapIntegerToString;
 import com.Monads.helper.OkMapSquareFunction;
 import org.junit.jupiter.api.Test;
 
@@ -37,24 +39,40 @@ class OkTest {
     @Test
     void mapOkTest() {
         Result<Exception, Integer> res = new Ok<>(2);
-        Result<Exception, Integer> map = res.map(new OkMapSquareFunction<>());
+        Result<Exception, String> map =
+                res
+                .map(new OkMapSquareFunction())
+                .map(new OkMapIntegerToString());
         assertTrue(map.isOk());
-        assertEquals(4, map.ok());
+        assertEquals("4", map.ok());
     }
     @Test
     void mapErrorOnOkTest() {
-        Result<Integer, Integer> res = Result.Ok(2);
-        Result<Integer, Integer> map = res.mapError(new ErrorMapSquareFunction<>());
+        Result<Double, Integer> res = Result.Ok(2);
+        Result<String, Integer> map =
+                res
+                .mapError(new ErrorMapSquareFunction())
+                .mapError(new ErrorMapDoubleToString());
         assertTrue(map.isOk());
         assertEquals(Integer.valueOf(2), map.ok());
     }
 
     @Test
-    void mapOrOnErrorTest() {
-        Result<Integer, Integer> res = Result.Ok(3);
-        Result<Integer, Integer> map = res.mapOr(new OkMapSquareFunction<>(), 2);
+    void mapOrOnOkTest() {
+        Result<Double, Integer> res = Result.Ok(2);
+        Result<Double, Integer> map = res.mapOr(new OkMapSquareFunction(), 2);
         assertTrue(map.isOk());
-        assertEquals(Integer.valueOf(9), map.ok());
+        assertEquals(Integer.valueOf(4), map.ok());
     }
+
+    @Test
+    void mapAndMapErrorMixOnOkTest() {
+        Result<Object, Integer> res = Result.Ok(2);
+        Result<Double, String> map = res.map(new OkMapIntegerToString()).mapError(o -> 3.0);
+        assertTrue(map.isOk());
+        assertEquals("2", map.ok());
+
+    }
+
 
 }

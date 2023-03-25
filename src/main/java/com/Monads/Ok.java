@@ -26,6 +26,26 @@ public class Ok<E, T> implements Result<E, T> {
     }
 
     @Override
+    public <U> Result<E, U> map(Function<? super T, ? extends U> mapper) {
+        return new Ok<>(mapper.apply(this.value));
+    }
+
+    @Override
+    public <W> Result<W, T> mapError(Function<? super E, ? extends W> mapper) {
+        return new Ok<>(this.value);
+    }
+
+    @Override
+    public <U> Result<E, U> mapOr(Function<? super T, ? extends U> mapper, U other) {
+        return new Ok<>(mapper.apply(this.value));
+    }
+
+    @Override
+    public <U> Result<E, U> mapOr(Function<? super T, ? extends U> mapper, Result<E, U> other) {
+        return new Ok<>(mapper.apply(this.value));
+    }
+
+    @Override
     final public Result<E, T> thenOk(Consumer<T> lambda) {
         lambda.accept(this.value);
         return this;
@@ -37,22 +57,22 @@ public class Ok<E, T> implements Result<E, T> {
     }
 
     @Override
-    final public <U> Result<E, U> map(Function<? super T, ? extends Result<E, U>> mapper) {
+    final public <U> Result<E, U> fmap(Function<? super T, ? extends Result<E, U>> mapper) {
         return mapper.apply(this.value);
     }
 
     @Override
-    final public <W> Result<W, T> mapError(Function<? super E, ? extends Result<W, T>> mapper) {
+    final public <W> Result<W, T> fmapError(Function<? super E, ? extends Result<W, T>> mapper) {
         return new Ok<>(this.value);
     }
 
     @Override
-    public <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, Result<E, U> other) {
+    public <U> Result<E, U> fmapOr(Function<? super T, ? extends Result<E,U>> mapper, Result<E, U> other) {
         return mapper.apply(this.value);
     }
 
     @Override
-    public <U> Result<E, U> mapOr(Function<? super T, ? extends Result<E,U>> mapper, U other) {
+    public <U> Result<E, U> fmapOr(Function<? super T, ? extends Result<E,U>> mapper, U other) {
         return mapper.apply(this.value);
     }
 
